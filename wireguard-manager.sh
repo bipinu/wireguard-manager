@@ -189,6 +189,9 @@ elif { [ "${CURRENT_DISTRO}" == "arch" ] || [ "${CURRENT_DISTRO}" == "archarm" ]
 else
   SYSTEM_CRON_NAME="cron"
 fi
+
+# Get the network information
+function get-network-information() {
 DEFAULT_INTERFACE_IPV4="$(curl --ipv4 --connect-timeout 5 --tlsv1.3 --silent 'https://api.ipengine.dev' | jq -r '.network.ip')"
 if [ -z "${DEFAULT_INTERFACE_IPV4}" ]; then
   DEFAULT_INTERFACE_IPV4="$(curl --ipv4 --connect-timeout 5 --tlsv1.3 --silent 'https://icanhazip.com')"
@@ -197,6 +200,7 @@ DEFAULT_INTERFACE_IPV6="$(curl --ipv6 --connect-timeout 5 --tlsv1.3 --silent 'ht
 if [ -z "${DEFAULT_INTERFACE_IPV6}" ]; then
   DEFAULT_INTERFACE_IPV6="$(curl --ipv6 --connect-timeout 5 --tlsv1.3 --silent 'https://icanhazip.com')"
 fi
+}
 
 # Usage Guide of the application
 function usage-guide() {
