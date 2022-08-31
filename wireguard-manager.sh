@@ -390,6 +390,7 @@ if [ ! -f "${WIREGUARD_CONFIG}" ]; then
     until [[ "${SERVER_HOST_V4_SETTINGS}" =~ ^[1-2]$ ]]; do
       read -rp "IPv4 Choice [1-2]:" -e -i 1 SERVER_HOST_V4_SETTINGS
     done
+    get-network-information
     case ${SERVER_HOST_V4_SETTINGS} in
     1)
       SERVER_HOST_V4=${DEFAULT_INTERFACE_IPV4}
@@ -1453,7 +1454,8 @@ PublicKey = ${SERVER_PUBKEY}" >>${WIREGUARD_CLIENT_PATH}/"${NEW_CLIENT_NAME}"-${
         service wg-quick@${WIREGUARD_PUB_NIC} restart
       fi
       ;;
-    12) # Change the IP address of your wireguard interface.
+    12) get-network-information
+      # Change the IP address of your wireguard interface.
       CURRENT_IP_METHORD=$(head --lines=1 ${WIREGUARD_CONFIG} | cut --delimiter=" " --fields=4)
       if [[ ${CURRENT_IP_METHORD} != *"["* ]]; then
         OLD_SERVER_HOST=$(head --lines=1 ${WIREGUARD_CONFIG} | cut --delimiter=" " --fields=4 | cut --delimiter=":" --fields=1)
