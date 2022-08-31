@@ -21,7 +21,7 @@ jobs:
           if [ "${{ env.NAMED_CACHE_CURRENT_HASH }}" != "${{ env.NAMED_CACHE_FUTURE_HASH }}" ]; then
             curl "${{ env.NAMED_CACHE_URL }}" -o "${{ env.NAMED_CACHE_PATH }}"
           else
-            exit
+            exit 0
           fi
       - name: Push the named.cache to github
         run: |
